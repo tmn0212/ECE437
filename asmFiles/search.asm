@@ -1,28 +1,31 @@
+#----------------------------------------------------------
+# RISC-V Assembly
+#----------------------------------------------------------
 #--------------------------------------
 # Test a search algorithm
 #--------------------------------------
   org   0x0000
-  ori   $sp, $zero, 0x80
-start:
-  ori   $1, $zero, 0x01
-  ori   $2, $zero, 0x04
-
-  sw    $0, 0($sp)            # set result to 0
-  lw    $3, 4($sp)            # load search variable into $3
-  lw    $4, 8($sp)            # load search length into $4
-  addiu $5, $sp, 12           # search pointer is in $5
-
+  ori   $2, $0, 0x80
+ start:
+  ori   $4, $0, 0x01
+   ori   $10, $0, 0x04
+ 
+  sw    $0, 0($2)            # set result to 0
+   lw    $11, 4($2)            # load search variable into $11
+   lw    $12, 8($2)            # load search length into $12
+   addi $13, $2, 12           # search pointer is in $13
+ 
 loop:
-  lw    $6, 0($5)             # load element at pointer $5
-  subu  $7, $6, $3            # compare loaded element with search var
-  beq   $7, $zero, found      # if matches, go to found
-  addu  $5, $5, $2            # increment pointer
-  subu  $4, $4, $1            # subutract search length
-  beq   $4, $zero, notfound   # if end of list, go to not found
-  beq   $0, $zero, loop       # do loop again
-found:
-  sw    $5, 0($sp)            # store into 0x80
-notfound:
+  lw    $14, 0($13)             # load element at pointer $13
+   sub  $15, $14, $11            # compare loaded element with search var
+   beq   $15, $0, found      # if matches, go to found
+   add  $13, $13, $10            # increment pointer
+   sub  $12, $12, $4            # subutract search length
+   beq   $12, $0, notfound   # if end of list, go to not found
+   beq   $0, $0, loop       # do loop again
+ found:
+  sw    $13, 0($2)            # store into 0x80
+ notfound:
   halt
 
 

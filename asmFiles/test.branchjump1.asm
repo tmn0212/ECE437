@@ -1,23 +1,29 @@
+#----------------------------------------------------------
+# RISC-V Assembly
+#----------------------------------------------------------
 #--------------------------------------
 # Test branch and jumps
 #--------------------------------------
   org 0x0000
-  ori   $1, $zero, 0xBA5C
-  ori   $2, $zero, 0x0080
-  ori   $15, $zero, jmpR
-  beq   $zero, $zero, braZ
-  sw    $1, 0($2)
-braZ:
+  lui $3, 0x0000B
+  ori   $4, $0, 0x75C
+  add $4, $4, $3
+  addi $4, $4, 0x300
+   ori   $10, $0, 0x080
+   ori   $16, $0, jmpR
+   beq   $0, $0, braZ
+   sw    $4, 0($10)
+ braZ:
   jal   braR
-  sw    $1, 4($2)
-end:
-  sw    $ra, 16($2)
-  HALT
+  sw    $4, 4($10)
+ end:
+  sw    $1, 16($10)
+   HALT
 braR:
-  or    $3, $zero, $ra
-  sw    $ra, 8($2)
-  jal   jmpR
-  sw    $1, 12($2)
-jmpR:
-  bne   $ra, $3, end
-  halt
+  or    $11, $0, $1
+   sw    $1, 8($10)
+   jal   jmpR
+  sw    $4, 12($10)
+ jmpR:
+  bne   $1, $11, end
+   halt
