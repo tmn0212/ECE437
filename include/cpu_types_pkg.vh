@@ -7,11 +7,15 @@
   Shubham Rastogi
   shubhamrastogi3111995@gmail.com
 
+  Ansh Patel
+  patelansh092@gmail.com
+
   cache structs added
   
 */
 `ifndef CPU_TYPES_PKG_VH
 `define CPU_TYPES_PKG_VH
+
 package cpu_types_pkg;
 
   // word width and size
@@ -19,12 +23,13 @@ package cpu_types_pkg;
   parameter WBYTES    = WORD_W/8;
 
   // instruction format widths
-  parameter OP_W      = 6;
+  parameter OP_W      = 7;
+
   parameter REG_W     = 5;
-  parameter SHAM_W    = REG_W;
-  parameter FUNC_W    = OP_W;
-  parameter IMM_W     = 16;
-  parameter ADDR_W    = 26;
+  parameter FUNC7_W    = OP_W;
+  parameter FUNC3_W    = 3;
+  parameter IMM_W_I    = 12;
+  parameter IMM_W_U_J  = 20;
 
   // alu op width
   parameter AOP_W     = 4;
@@ -45,62 +50,92 @@ package cpu_types_pkg;
 // opcodes
   // opcode type
   typedef enum logic [OP_W-1:0] {
-    // rtype - use funct
-    RTYPE   = 6'b000000,
-
-    // jtype
-    J       = 6'b000010,
-    JAL     = 6'b000011,
-
-    // itype
-    BEQ     = 6'b000100,
-    BNE     = 6'b000101,
-    ADDI    = 6'b001000,
-    ADDIU   = 6'b001001,
-    SLTI    = 6'b001010,
-    SLTIU   = 6'b001011,
-    ANDI    = 6'b001100,
-    ORI     = 6'b001101,
-    XORI    = 6'b001110,
-    LUI     = 6'b001111,
-    LW      = 6'b100011,
-    LBU     = 6'b100100, // NOT USED
-    LHU     = 6'b100101, // NOT USED
-    SB      = 6'b101000, // NOT USED
-    SH      = 6'b101001, // NOT USED
-    SW      = 6'b101011,
-    LL      = 6'b110000,
-    SC      = 6'b111000,
-    HALT    = 6'b111111
+    RTYPE     = 7'b0110011,
+    ITYPE     = 7'b0010011,
+    ITYPE_LW  = 7'b0000011,
+    JALR      = 7'b1100111,
+    STYPE     = 7'b0100011,
+    BTYPE     = 7'b1100011,
+    JAL       = 7'b1101111,
+    LUI       = 7'b0110111,
+    AUIPC     = 7'b0010111,
+    LR_SC     = 7'b0101111,
+    HALT      = 7'b1111111
   } opcode_t;
 
-  // rtype funct op type
-  typedef enum logic [FUNC_W-1:0] {
-    SLLV    = 6'b000100,
-    SRLV    = 6'b000110,
-    JR      = 6'b001000,
-    ADD     = 6'b100000,
-    ADDU    = 6'b100001,
-    SUB     = 6'b100010,
-    SUBU    = 6'b100011,
-    AND     = 6'b100100,
-    OR      = 6'b100101,
-    XOR     = 6'b100110,
-    NOR     = 6'b100111,
-    SLT     = 6'b101010,
-    SLTU    = 6'b101011
-  } funct_t;
+  typedef enum logic[4:0] {
+    LR = 5'h02,
+    SC = 5'h03
+  } funct5_atomic_t;
+  
+  // r/itype funct3 op type
+  typedef enum logic [FUNC3_W-1:0] {
+    SLL     = 3'h1,
+    SRL_SRA = 3'h5,
+    ADD_SUB = 3'h0,
+    AND     = 3'h7,
+    OR      = 3'h6,
+    XOR     = 3'h4,
+    SLT     = 3'h2,
+    SLTU    = 3'h3
+  } funct3_r_t;
+
+  typedef enum logic [FUNC3_W-1:0] {
+    ADDI    = 3'h0,
+    XORI    = 3'h4,
+    ORI     = 3'h6,
+    ANDI    = 3'h7,
+    SLLI    = 3'h1,
+    SRLI_SRAI = 3'h5,
+    SLTI    = 3'h2,
+    SLTIU   = 3'h3
+  } funct3_i_t;
+
+  typedef enum logic [FUNC3_W-1:0] {
+    LB      = 3'h0,
+    LH      = 3'h1,
+    LW      = 3'h2,
+    LBU     = 3'h4,
+    LHU     = 3'h5
+  } funct3_ld_i_t;
+
+  typedef enum logic [FUNC3_W-1:0] {
+    SB      = 3'h0,
+    SH      = 3'h1,
+    SW      = 3'h2
+  } funct3_s_t;
+
+  typedef enum logic [FUNC3_W-1:0] {
+    BEQ     = 3'h0,
+    BNE     = 3'h1,
+    BLT     = 3'h4,
+    BGE     = 3'h5,
+    BLTU    = 3'h6,
+    BGEU    = 3'h7
+  } funct3_b_t;
+
+  // rtype funct7 op type
+  typedef enum logic [FUNC7_W-1:0] {
+    ADD     = 7'h00,
+    SUB     = 7'h20
+  } funct7_r_t;
+
+  // rtype sra,srl funct7 op type
+  typedef enum logic [FUNC7_W-1:0] {
+    SRA     = 7'h20,
+    SRL     = 7'h00
+  } funct7_srla_r_t;
 
   // alu op type
   typedef enum logic [AOP_W-1:0] {
     ALU_SLL     = 4'b0000,
     ALU_SRL     = 4'b0001,
-    ALU_ADD     = 4'b0010,
-    ALU_SUB     = 4'b0011,
-    ALU_AND     = 4'b0100,
-    ALU_OR      = 4'b0101,
-    ALU_XOR     = 4'b0110,
-    ALU_NOR     = 4'b0111,
+    ALU_SRA     = 4'b0010,
+    ALU_ADD     = 4'b0011,
+    ALU_SUB     = 4'b0100,
+    ALU_AND     = 4'b0101,
+    ALU_OR      = 4'b0110,
+    ALU_XOR     = 4'b0111,
     ALU_SLT     = 4'b1010,
     ALU_SLTU    = 4'b1011
   } aluop_t;
@@ -111,30 +146,62 @@ package cpu_types_pkg;
 
   // j type
   typedef struct packed {
-    opcode_t            opcode;
-    logic [ADDR_W-1:0]  addr;
+    logic [IMM_W_U_J-1:0] imm;
+    regbits_t             rd;
+    opcode_t              opcode;
   } j_t;
+
+  // u type
+  typedef struct packed {
+    logic [IMM_W_U_J-1:0] imm;
+    regbits_t             rd;
+    opcode_t              opcode;
+  } u_t;
+
+  // b type
+  typedef struct packed {
+    logic [7-1:0]       imm2;
+    regbits_t           rs2;
+    regbits_t           rs1;
+    funct3_b_t          funct3;
+    logic [5-1:0]       imm1;
+    opcode_t            opcode;
+  } b_t;
+
+  // s type
+  typedef struct packed {
+    logic [7-1:0]       imm2;
+    regbits_t           rs2;
+    regbits_t           rs1;
+    funct3_s_t          funct3;
+    logic [5-1:0]       imm1;
+    opcode_t            opcode;
+  } s_t;
+
   // i type
   typedef struct packed {
+    logic [IMM_W_I-1:0] imm;
+    regbits_t           rs1;
+    funct3_i_t          funct3;
+    regbits_t           rd;
     opcode_t            opcode;
-    regbits_t           rs;
-    regbits_t           rt;
-    logic [IMM_W-1:0]   imm;
   } i_t;
+
   // r type
   typedef struct packed {
-    opcode_t            opcode;
-    regbits_t           rs;
-    regbits_t           rt;
+    funct7_r_t          funct7;
+    regbits_t           rs2;
+    regbits_t           rs1;
+    funct3_r_t          funct3;
     regbits_t           rd;
-    logic [SHAM_W-1:0]  shamt;
-    funct_t             funct;
+    opcode_t            opcode;
   } r_t;
 
 // cache address format types
   // icache format type
   typedef struct packed {
     logic [ITAG_W-1:0]  tag;
+    
     logic [IIDX_W-1:0]  idx;
     logic [IBYT_W-1:0]  bytoff;
   } icachef_t;
