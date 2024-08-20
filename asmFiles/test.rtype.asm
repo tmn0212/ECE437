@@ -30,9 +30,12 @@
    sll  $28,$4,$31
    ori   $31,$0,5
    srl  $29,$4,$31
+# nor   $30,$4,$10 # No Nor in RV32
+#  or $30, $4, $10
+#  not $30, $30
 
 # Store them to verify the results
-  
+  # sw    $30,0($22)
    sw    $11,0($21)
    sw    $12,4($21)
    sw    $13,8($21)
