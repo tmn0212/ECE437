@@ -1,8 +1,15 @@
+<<<<<<< HEAD
+=======
+#----------------------------------------------------------
+# RISC-V Assembly
+#----------------------------------------------------------
+>>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 #Mergesort for benchmarking
 #Optimized for 512 bit I$ 1024 bit D$
 #Author Adam Hendrickson ahendri@purdue.edu
 
 org 0x0000
+<<<<<<< HEAD
   ori   $fp, $zero, 0xFFFC
   ori   $sp, $zero, 0xFFFC
   ori   $a0, $zero, data
@@ -31,6 +38,42 @@ org 0x0000
   jal   merge
   addiu $sp, $sp, 4
   halt
+=======
+  ori   $8, $0, 0xFFC
+   ori   $2, $0, 0xFFC
+   lui $3, 0xffff7  
+  sub $2, $2, $3
+  sub $8, $8, $3
+  lui $3, 0x00007
+  add $2, $2, $3
+  add $8, $8, $3
+   ori   $12, $0, data
+   lw    $24, size($0)
+   ori   $6, $0, 1
+   srl  $13,$24,$6
+   or    $9, $0, $12
+   or    $18, $0, $13
+   jal   insertion_sort
+  ori   $6, $0, 1
+   srl  $5,$24,$6
+   sub  $13, $24, $5
+   ori   $6, $0, 2
+   sll  $5,$5,$6
+   ori   $12, $0, data
+   add  $12, $12, $5
+   or    $19, $0, $12
+   or    $20, $0, $13
+   jal   insertion_sort
+  or    $12, $0, $9
+   or    $13, $0, $18
+   or    $14, $0, $19
+   or    $15, $0, $20
+   ori   $5, $0, sorted
+   push  $5
+   jal   merge
+  addi $2, $2, 4
+   halt
+>>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 
 
 
@@ -39,6 +82,7 @@ org 0x0000
 # $a1 : size of array
 #--------------------------------------
 insertion_sort:
+<<<<<<< HEAD
   ori   $t0, $zero, 4
   ori   $t2, $0, 2
   sllv  $t1, $t2, $a1
@@ -62,6 +106,31 @@ is_inner_end:
 is_end:
   jr    $ra
 #--------------------------------------
+=======
+  ori   $5, $0, 4
+   ori   $7, $0, 2
+   sll  $6,$13,$7
+ is_outer:
+  sltu  $4, $5, $6
+   beq   $4, $0, is_end
+   add  $31, $12, $5
+   lw    $30, 0($31)
+ is_inner:
+  beq   $31, $12, is_inner_end
+   lw    $16, -4($31)
+   slt   $4, $30, $16
+   beq   $4, $0, is_inner_end
+   sw    $16, 0($31)
+   addi $31, $31, -4
+   j     is_inner
+is_inner_end:
+  sw    $30, 0($31)
+   addi $5, $5, 4
+   j     is_outer
+is_end:
+  jr    $1
+ #--------------------------------------
+>>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 
 #void merge(int* $a0, int $a1, int* $a2, int $a3, int* dst)
 # $a0 : pointer to list 1
@@ -71,6 +140,7 @@ is_end:
 # dst [$sp+4] : pointer to merged list location
 #--------------------------------------
 merge:
+<<<<<<< HEAD
   lw    $t0, 0($sp)
 m_1:
   bne   $a1, $zero, m_3
@@ -114,6 +184,51 @@ m_5:  # right copy
 m_end:
   jr    $ra
 #--------------------------------------
+=======
+  lw    $5, 0($2)
+ m_1:
+  bne   $13, $0, m_3
+ m_2:
+  bne   $15, $0, m_3
+   j     m_end
+m_3:
+  beq   $15, $0, m_4
+   beq   $13, $0, m_5
+   lw    $6, 0($12)
+   lw    $7, 0($14)
+   slt   $4, $6, $7
+   beq   $4, $0, m_3a
+   sw    $6, 0($5)
+   addi $5, $5, 4
+   addi $12, $12, 4
+   addi $13, $13, -1
+   j     m_1
+m_3a:
+  sw    $7, 0($5)
+   addi $5, $5, 4
+   addi $14, $14, 4
+   addi $15, $15, -1
+   j     m_1
+m_4:  #left copy
+  lw    $6, 0($12)
+   sw    $6, 0($5)
+   addi $5, $5, 4
+   addi $13, $13, -1
+   addi $12, $12, 4
+   beq   $13, $0, m_end
+   j     m_4
+m_5:  # right copy
+  lw    $7, 0($14)
+   sw    $7, 0($5)
+   addi $5, $5, 4
+   addi $15, $15, -1
+   addi $14, $14, 4
+   beq   $15, $0, m_end
+   j     m_5
+m_end:
+  jr    $1
+ #--------------------------------------
+>>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 
 
 org 0x300
