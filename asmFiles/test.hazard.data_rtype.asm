@@ -16,7 +16,7 @@
   add $11, $11, $8 # 1st data hazard, reuse $11
   add $12, $9, $11 # 2nd data hazard, reuse $11
   add $7, $11, $12 # 3rd data hazard with both operand
-
+#
   # store values for double check
   sw $8, 0($21)
   sw $9, 4($21)
