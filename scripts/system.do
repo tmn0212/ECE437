@@ -1,20 +1,21 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
 add wave -noupdate /system_tb/CLK
+add wave -noupdate /system_tb/DUT/CPUCLK
 add wave -noupdate /system_tb/nRST
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/halt
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/ihit
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/imemREN
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/imemload
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/imemaddr
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dhit
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/datomic
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dmemREN
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dmemWEN
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/flushed
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dmemload
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dmemstore
-add wave -noupdate -group dpif /system_tb/DUT/CPU/DP/dpif/dmemaddr
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/halt
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/ihit
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/imemREN
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/imemload
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/imemaddr
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dhit
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/datomic
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dmemREN
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dmemWEN
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/flushed
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dmemload
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dmemstore
+add wave -noupdate -expand -group dpif /system_tb/DUT/CPU/DP/dpif/dmemaddr
 add wave -noupdate -group cuif /system_tb/DUT/CPU/DP/cuif/Instruction
 add wave -noupdate -group cuif /system_tb/DUT/CPU/DP/cuif/MemWr
 add wave -noupdate -group cuif /system_tb/DUT/CPU/DP/cuif/ALUOP
@@ -126,7 +127,7 @@ add wave -noupdate -group memwb /system_tb/DUT/CPU/DP/pl4/next_RegWr
 add wave -noupdate -group memwb /system_tb/DUT/CPU/DP/pl4/next_halt
 add wave -noupdate -group memwb /system_tb/DUT/CPU/DP/pl4/next_wsel
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {662655 ps} 0}
+WaveRestoreCursors {{Cursor 1} {1314082059 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -142,4 +143,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {1313648490 ps} {1313934290 ps}
+WaveRestoreZoom {0 ps} {353597 ps}
