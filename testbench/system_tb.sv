@@ -35,7 +35,6 @@ module system_tb;
   // dut
 `ifndef MAPPED
   system                              DUT (CLK,nRST,syif);
-<<<<<<< HEAD
 
   // CPU Tracker. Uncomment and change signal names to enable.
   /*
@@ -80,7 +79,6 @@ module system_tb;
   );
   */
 
-=======
   /*
   // NOTE: All of these signals MUST be passed all the way through
   // to the write back stage and sampled in the WRITEBACK stage.
@@ -123,7 +121,6 @@ module system_tb;
     .reg_dat(DUT.CPU.DP.MW_o.wdat)
   );
   */
->>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 `else
   system                              DUT (,,,,//for altera debug ports
     CLK,

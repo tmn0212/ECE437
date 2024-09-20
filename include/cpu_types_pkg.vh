@@ -7,12 +7,9 @@
   Shubham Rastogi
   shubhamrastogi3111995@gmail.com
 
-<<<<<<< HEAD
-=======
   Ansh Patel
   patelansh092@gmail.com
 
->>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
   cache structs added
   
 */
@@ -66,24 +63,6 @@ package cpu_types_pkg;
     HALT      = 7'b1111111
   } opcode_t;
 
-<<<<<<< HEAD
-  // rtype funct op type
-  typedef enum logic [FUNC_W-1:0] {
-    SLLV    = 6'b000100,
-    SRLV    = 6'b000110,
-    JR      = 6'b001000,
-    ADD     = 6'b100000,
-    ADDU    = 6'b100001,
-    SUB     = 6'b100010,
-    SUBU    = 6'b100011,
-    AND     = 6'b100100,
-    OR      = 6'b100101,
-    XOR     = 6'b100110,
-    NOR     = 6'b100111,
-    SLT     = 6'b101010,
-    SLTU    = 6'b101011
-  } funct_t;
-=======
   typedef enum logic[4:0] {
     LR = 5'h02,
     SC = 5'h03
@@ -146,7 +125,6 @@ package cpu_types_pkg;
     SRA     = 7'h20,
     SRL     = 7'h00
   } funct7_srla_r_t;
->>>>>>> 5bd21b5eda985cc129168b5791851689fead6a2d
 
   // alu op type
   typedef enum logic [AOP_W-1:0] {
